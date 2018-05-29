@@ -66,16 +66,22 @@ def extract_voice(ckeckpoint_path, files, sr=44100, n_batch=256):
             for file in files:
 
                 print('processing {}..'.format(file), end='')
-
+                
                 if os.path.exists(file):                
                     sound, _ = audio_from_file(file, sr=sr)
                     input = audio_to_frames(sound, x.shape[1])
-                    dummy = np.zeros((input.shape[0],), dtype=np.int32)
-                    sess.run(init, feed_dict = { x : input, y : dummy, ph_n_shuffle : 1, ph_n_repeat : 1, ph_n_batch : n_batch })                        
-                    prediction = sess.run(logits)    
-                    winner = np.argmax(prediction, axis=1)
-                    noise = input[np.argwhere(winner==0),:].reshape(-1,1)
-                    speech = input[np.argwhere(winner==1),:].reshape(-1,1)
+                    labels = np.zeros((input.shape[0],), dtype=np.int32)
+                    sess.run(init, feed_dict = { x : input, y : labels, ph_n_shuffle : 1, ph_n_repeat : 1, ph_n_batch : n_batch })                        
+                    count = 0
+                    while True:
+                        try:                    
+                            output = sess.run(logits) 
+                            labels[count:count+output.shape[0]] = np.argmax(output, axis=1)                                
+                            count += output.shape[0]
+                        except tf.errors.OutOfRangeError:                                                                                
+                            break                                             
+                    noise = input[np.argwhere(labels==0),:].reshape(-1,1)
+                    speech = input[np.argwhere(labels==1),:].reshape(-1,1)
                     name, ext = os.path.splitext(file)                    
                     audio_to_file(os.path.join(name + '.speech' + ext), speech, sr)                    
                     audio_to_file(os.path.join(name + '.noise' + ext), noise, sr)                    
@@ -97,9 +103,14 @@ parser.add_argument('--files',
                 default=[r'data\noise.wav', r'data\speech.wav'],
                 help='list of files')
 
+parser.add_argument('--n_batch', 
+                type=int,
+                default=256,
+                help='number of batches')
+
 
 if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    extract_voice(args.model, args.files)
+    extract_voice(args.model, args.files, n_batch=args.n_batch)

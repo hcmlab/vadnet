@@ -16,7 +16,7 @@ set DST=bin\
 %DST%wget.exe -q https://raw.githubusercontent.com/hcmlab/ssi/master/bin/x64/vc140/python%PYTHON_VER%._pth -O %DST%python%PYTHON_VER%._pth
 %DST%wget.exe -q https://bootstrap.pypa.io/get-pip.py -O %DST%get-pip.py
 %DST%python %DST%get-pip.py
-%DST%python %DST%setup.py
+rem %DST%python %DST%setup.py
 %DST%Scripts\pip.exe install tensorflow-gpu
 %DST%Scripts\easy_install.exe termcolor
 %DST%Scripts\pip.exe install tensorflow-gpu
