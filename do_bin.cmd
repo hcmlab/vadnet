@@ -20,5 +20,6 @@ set DST=bin\
 %DST%Scripts\pip.exe install tensorflow-gpu
 %DST%Scripts\easy_install.exe termcolor
 %DST%Scripts\pip.exe install tensorflow-gpu
+%DST%Scripts\pip.exe install librosa
 %DST%wget.exe %SRC%xmlpipe.exe -O %DST%xmlpipe.exe 
 
