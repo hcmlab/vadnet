@@ -1,0 +1,84 @@
+<?xml version="1.0" ?>
+<pipeline ssi-v="1">
+	
+	<register>
+		<load name="graphic" />
+		<load name="audio"/>
+		<load name="ioput"/>		
+		<load name="signal"/>		
+		<load name="python"/>
+		<load name="control"/>
+	</register>
+
+	<!-- live -->
+	<gate open="$(audio:live)">
+	
+		<sensor create="Audio" option="options/audio" sr="44100" scale="true">
+			<output channel="audio" pin="audio"/>		
+		</sensor>	
+		
+	</gate>
+	
+	<!-- file -->
+	<gate close="$(audio:live)">
+	
+		<sensor create="WavReader:reader" path="data\speech.wav" loop="true">			
+			<output channel="audio" pin="speech_raw" size="2.0s"/>
+		</sensor>		
+		<sensor create="WavReader:reader" path="data\noise.wav" loop="true">			
+			<output channel="audio" pin="noise_raw" size="2.0s"/>
+		</sensor>		
+
+		<!-- volume -->
+		<transformer create="Multiply:speech" factor="0.0">
+			<input pin="speech_raw" frame="4410"/>
+			<output pin="speech"/>
+		</transformer>	
+		<transformer create="Multiply:noise" factor="0.0">
+			<input pin="noise_raw" frame="4410"/>
+			<output pin="noise"/>
+		</transformer>	
+		
+		<!-- mixer -->
+		<transformer create="STKAudioMixer:mixer">
+			<input pin="speech;noise" frame="4410"/>
+			<output pin="audio"/>
+		</transformer>
+		
+		<!-- slider -->
+		<runnable create="ControlSlider:slider" title="SPEECH" id="speech" name="factor" defval="0.0" minval="0.0" maxval="2.0"/>
+		<runnable create="ControlSlider:slider" title="NOISE" id="noise" name="factor" defval="0.0" minval="0.0" maxval="0.5"/>	
+		
+	</gate>
+	
+	<!-- vad -->
+	<transformer create="PythonFeature" script="vad" syspath="." optsstr="path=$(model:path)">
+		<input pin="audio" frame="11025" delta="11025"/>
+		<output pin="vad_raw"/>
+	</transformer>
+	<transformer create="MvgAvgVar" format="1" method="2" win="3.0">
+		<input pin="vad_raw" frame="1"/>
+		<output pin="vad"/>
+	</transformer>
+	
+	<!-- visualization -->	
+	<consumer create="SignalPainter:plot" title="AUDIO" size="10" type="2">
+		<input pin="audio" frame="0.2s" delta="0"/>
+	</consumer>
+	<consumer create="SignalPainter:plot" title="VAD" type="5" autoscale="false" fix="1,1" barNames="NOISE,VOICE">
+		<input pin="vad" frame="1" />
+	</consumer>
+	
+	<!-- player -->
+	<consumer create="AudioPlayer" option="options\aplayer">
+		<input pin="audio" frame="0.1s"/>
+	</consumer>
+	
+	<!-- decoration -->
+	<object create="Decorator" icon="true" title="Pipeline">
+		<area pos="0,0,400,600">console</area>
+		<area pos="400,0,400,600">plot*</area>		
+		<area pos="800,0,400,200" nh="1">slider*</area>	
+	</object>
+
+</pipeline>

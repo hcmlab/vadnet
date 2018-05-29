@@ -1,0 +1,2 @@
+audio:live = false 										# $(bool) use live input from a microphone
+model:path=models\model.ckpt-47072						# path to model file
