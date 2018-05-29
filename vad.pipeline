@@ -70,9 +70,11 @@
 	</consumer>
 	
 	<!-- player -->
-	<consumer create="AudioPlayer" option="options\aplayer">
-		<input pin="audio" frame="0.1s"/>
-	</consumer>
+	<gate close="$(audio:live)">		
+		<consumer create="AudioPlayer" option="options\aplayer">
+			<input pin="audio" frame="0.1s"/>
+		</consumer>
+	</gate>
 	
 	<!-- decoration -->
 	<object create="Decorator" icon="true" title="Pipeline">
