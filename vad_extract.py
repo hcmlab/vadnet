@@ -65,7 +65,7 @@ def extract_voice(ckeckpoint_path, files, sr=44100, n_batch=256):
 
             for file in files:
 
-                print('processing {}..'.format(file), end='')
+                print('processing {}'.format(file), flush=True)
                 
                 if os.path.exists(file):                
                     sound, _ = audio_from_file(file, sr=sr)
@@ -73,23 +73,23 @@ def extract_voice(ckeckpoint_path, files, sr=44100, n_batch=256):
                     labels = np.zeros((input.shape[0],), dtype=np.int32)
                     sess.run(init, feed_dict = { x : input, y : labels, ph_n_shuffle : 1, ph_n_repeat : 1, ph_n_batch : n_batch })                        
                     count = 0
+                    n_total = input.shape[0]
                     while True:
                         try:                    
                             output = sess.run(logits) 
                             labels[count:count+output.shape[0]] = np.argmax(output, axis=1)                                
                             count += output.shape[0]
+                            print('{:.2f}%\r'.format(100 * (count/n_total)), end='', flush=True)
                         except tf.errors.OutOfRangeError:                                                                                
                             break                                             
                     noise = input[np.argwhere(labels==0),:].reshape(-1,1)
                     speech = input[np.argwhere(labels==1),:].reshape(-1,1)
                     name, ext = os.path.splitext(file)                    
                     audio_to_file(os.path.join(name + '.speech' + ext), speech, sr)                    
-                    audio_to_file(os.path.join(name + '.noise' + ext), noise, sr)                    
-
-                    print('ok')
+                    audio_to_file(os.path.join(name + '.noise' + ext), noise, sr)                                        
 
                 else:
-                    print('skip [file not found]')
+                    print('skip [file not found]')       
 
 
 parser = argparse.ArgumentParser()
