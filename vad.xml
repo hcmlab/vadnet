@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<vad>	
+	<noise>$(0{select=0})</noise>
+	<voice>$(0{select=1})</voice>
+</vad>
+

@@ -46,8 +46,8 @@
 		</transformer>
 		
 		<!-- slider -->
-		<runnable create="ControlSlider:slider" title="SPEECH" id="speech" name="factor" defval="0.0" minval="0.0" maxval="2.0"/>
-		<runnable create="ControlSlider:slider" title="NOISE" id="noise" name="factor" defval="0.0" minval="0.0" maxval="0.5"/>	
+		<runnable create="ControlSlider:slider" title="SPEECH" id="speech" name="factor" defval="0.0" minval="0.0" maxval="1.0"/>
+		<runnable create="ControlSlider:slider" title="NOISE" id="noise" name="factor" defval="0.0" minval="0.0" maxval="0.25"/>	
 		
 	</gate>
 	
@@ -60,6 +60,16 @@
 		<input pin="vad_raw" frame="1"/>
 		<output pin="vad"/>
 	</transformer>
+	
+	<!-- event sender -->
+	<gate open="$(send:do)">
+		<consumer create="XMLEventSender:monitor" address="vad@xml" path="vad.xml" monitor="true" mname="XML" console="false" update="100" coldelim=" ">
+			<input pin="vad" frame="1"/>
+		</consumer>	
+		<object create="SocketEventWriter" url="$(send:url)" xml="false">
+			<listen address="vad@xml"/>
+		</object>	
+	</gate>
 	
 	<!-- visualization -->	
 	<consumer create="SignalPainter:plot" title="AUDIO" size="10" type="2">
@@ -76,11 +86,28 @@
 		</consumer>
 	</gate>
 	
+	<!-- record -->
+	<gate open="$(record:do)">
+		<register>
+			<load name="camera"/>
+		</register>	
+		<sensor create="CameraScreen" resize="true" sr="25" region="400,0,800,600" mouse="true" flip="false">
+			<output channel="video" pin="camera" size="2.0s"/>
+		</sensor>
+		<consumer create="CameraWriter" option="options\camscreenwriter" overwrite="true" path="$(record:path).avi">
+			<input pin="camera" frame="1" delta="0"/>
+		</consumer>	
+		<consumer create="WavWriter" option="options\camscreenwriter" overwrite="true" path="$(record:path).wav">
+			<input pin="audio" frame="0.04s" delta="0"/>
+		</consumer>	
+	</gate>	
+	
 	<!-- decoration -->
 	<object create="Decorator" icon="true" title="Pipeline">
 		<area pos="0,0,400,600">console</area>
 		<area pos="400,0,400,600">plot*</area>		
 		<area pos="800,0,400,200" nh="1">slider*</area>	
+		<area pos="800,300,400,300">monitor</area>	
 	</object>
 
 </pipeline>
