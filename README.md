@@ -13,7 +13,7 @@ Visual Studio 2015 Redistributable (https://www.microsoft.com/en-us/download/det
 
 # Installation
 
-`do_bin.cmd` - Installs embedded Python and downloads SSI interpreter. During the installation the script tries to detect if a GPU is available and possibly installs ``tensorflow-gpu``. This requires that a NVidia graphic card is detected and CUDA has been installed. Nevertheless, VadNet also runs fine on CPU only.
+`do_bin.cmd` - Installs embedded Python and downloads SSI interpreter. During the installation the script tries to detect if a GPU is available and possibly installs ``tensorflow-gpu``. This requires that a NVIDIA graphic card is detected and CUDA has been installed. Nevertheless, VadNet also runs fine on CPU only.
 
 # Quick Guide
 
