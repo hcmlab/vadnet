@@ -1,5 +1,5 @@
 # VadNet
-VadNet is a robust real-time voice activity detector. It follows an End-to-end learning approach based on Deep Neural Networks. Click on the image to see a video.
+VadNet is a robust real-time voice activity detector. It follows an end-to-end learning approach based on Deep Neural Networks. Click on the image to see a video.
 
 <a href="https://www.youtube.com/watch?v=QL4HY_e21v0" target="_blank"><img src="https://raw.githubusercontent.com/hcmlab/vadnet/master/pics/vadnet.png"/></a>
 
