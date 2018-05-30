@@ -1,5 +1,5 @@
 # VadNet
-VadNet is a robust real-time voice activity detector. It follows an end-to-end learning approach based on Deep Neural Networks. Click on the image to see a video.
+VadNet is a real-time voice activity detector for noisy enviroments. It implements an end-to-end learning approach based on Deep Neural Networks. To see a demonstration click on the image below.
 
 <a href="https://www.youtube.com/watch?v=QL4HY_e21v0" target="_blank"><img src="https://raw.githubusercontent.com/hcmlab/vadnet/master/pics/vadnet.png"/></a>
 
@@ -13,13 +13,13 @@ Visual Studio 2015 Redistributable (https://www.microsoft.com/en-us/download/det
 
 # Installation
 
-`do_bin.cmd` - Installs embedded Python and downloads SSI interpreter. During the installation the script tries to detect if a GPU is available and possibly installs ``tensorflow-gpu``. This requires that a NVIDIA graphic card is detected and CUDA has been installed. Nevertheless, VadNet also runs fast on the CPU.
+`do_bin.cmd` - Installs embedded Python and downloads SSI interpreter. During the installation the script tries to detect if a GPU is available and possibly installs the GPU version of tensorflow. This requires that a NVIDIA graphic card is detected and CUDA has been installed. Nevertheless, VadNet does fine on a CPU.
 
 # Quick Guide
 
 `do_vad.cmd` - Demo on pre-recorded files (requires 44.1k mono wav files)
 
-`do_vad_live.cmd` - Live demo (requires a microphone and shares result through a socket connection)
+`do_vad_live.cmd` - Live demo (requires a microphone and sends results to a socket connection)
 
 `do_vad_extract.cmd` - Separates audio file into noisy and voiced parts (supports any audio format)
 
@@ -30,15 +30,15 @@ VadNet is implemented using the [Social Signal Interpretation (SSI)](http://open
 ```
 audio:live = false                   # $(bool) use live input from a microphone
 model:path=models\model.ckpt-357047  # path to model file
-send:do = false                      # $(bool) send xml string
+send:do = false                      # $(bool) stream detection result to a socket
 send:url = upd://localhost:1234      # socket address in format <protocol://host:port>
 record:do = false                    # $(bool) capture screen and audio
 record:path = capture                # capture path
 ```
 
-If the option ``send:do`` is turned on, SSI will send a small XML string to the socket defined by ``send:url``. It includes the latest detection result and can be used by your application. For more information about SSI pipelines please consult the [documentation](https://rawgit.com/hcmlab/ssi/master/docs/index.html#xml) of SSI.
+If the option ``send:do`` is turned on, an XML string with the detection results is streamed to a socket (see ``send:url``). You can change the format of the XML string by editing ``vad.xml``. To run SSI in the background, click on the tray icon and select 'Hide windows'. For more information about SSI pipelines please consult the [documentation](https://rawgit.com/hcmlab/ssi/master/docs/index.html#xml) of SSI.
 
-The Python script ``vad_extract.py`` can be used to separate noisy and voiced parts in an audio file. For each input file ``<name>.<ext>`` two new files ``<name>.speech.wav`` and ``<name>.noise.wav`` will be generated. The script should handle all common audio formats. You can run the script from the command line by calling  ``> bin\python.exe vad_extract.py <arguments>``:
+The Python script ``vad_extract.py`` can be used to separate noisy and voiced parts of an audio file. For each input file ``<name>.<ext>`` two new files ``<name>.speech.wav`` and ``<name>.noise.wav`` will be generated. The script should handle all common audio formats. You can run the script from the command line by calling  ``> bin\python.exe vad_extract.py <arguments>``:
 
 ```
 usage: vad_extract.py [-h] [--model MODEL] [--files FILES [FILES ...]] [--n_batch N_BATCH]
