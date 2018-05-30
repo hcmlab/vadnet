@@ -1,6 +1,6 @@
 @echo off
 
-set MODEL=models\model.ckpt-47072
+set MODEL=models\model.ckpt-357047
 set FILES=data\noise.wav data\speech.wav
 set N_BATCH=256
 
