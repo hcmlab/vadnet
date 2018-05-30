@@ -38,7 +38,7 @@ record:path = capture                # capture path
 
 If the option ``send:do`` is turned on, SSI will send a small XML string to the socket defined by ``send:url``. It includes the latest detection result and can be used by your application. For more information about SSI pipelines please consult the [documentation](https://rawgit.com/hcmlab/ssi/master/docs/index.html#xml) of SSI.
 
-The Python script ``vad_extract.py`` can be used to separate noisy and voiced parts in an audio file. For each input file <name.ext> two new files <name>.speech.wav and <name>.noise.wav will be generated. The script should handle all common audio formats. You can run the script from the command line by calling  ``> bin\python.exe vad_extract.py <options>``:
+The Python script ``vad_extract.py`` can be used to separate noisy and voiced parts in an audio file. For each input file ``<name>.<ext>`` two new files ``<name>.speech.wav`` and ``<name>.noise.wav`` will be generated. The script should handle all common audio formats. You can run the script from the command line by calling  ``> bin\python.exe vad_extract.py <options>``:
 
 ```
 usage: vad_extract.py [-h] [--model MODEL] [--files FILES [FILES ...]] [--n_batch N_BATCH]
