@@ -1,6 +1,6 @@
 audio:live = false 										# $(bool) use live input from a microphone
 
-model:path=models\model.ckpt-357047						# path to model file
+model:path=models\model.ckpt-381025						# path to model file
 
 send:do = false											# $(bool) send xml string
 send:url = upd://localhost:1234							# socket address in format <protocol://host:port>
