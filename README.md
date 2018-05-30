@@ -64,7 +64,7 @@ Filter weights learned in the first CNN layer:
 
 <img src="https://raw.githubusercontent.com/hcmlab/vadnet/master/pics/conv1-filter-weights.png"/>
 
-Some selected activations of the last RNN layer for an audio sample:
+Some selected activations of the last RNN layer for an audio sample containing music and speech:
 
 <img src="https://raw.githubusercontent.com/hcmlab/vadnet/master/pics/rnn2-activiations-selected.png"/>
 
