@@ -3,7 +3,7 @@
 	
 	<register>
 		<load name="graphic" />
-		<load name="audio"/>
+		<load name="audio" depend="ssidialog.dll"/>
 		<load name="ioput"/>		
 		<load name="signal"/>		
 		<load name="python"/>
