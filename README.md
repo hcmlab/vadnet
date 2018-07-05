@@ -31,7 +31,7 @@ VadNet is implemented using the [Social Signal Interpretation (SSI)](http://open
 
 ```
 audio:live = false                   # $(bool) use live input (otherwise read from file)
-audio:live:mic = true 							 # $(bool) if live input is selected use microphone (otherwise use soundcard)
+audio:live:mic = true                # $(bool) if live input is selected use microphone (otherwise use soundcard)
 model:path=models\vad                # path to model folder
 send:do = false                      # $(bool) stream detection results to a socket
 send:url = upd://localhost:1234      # socket address in format <protocol://host:port>
