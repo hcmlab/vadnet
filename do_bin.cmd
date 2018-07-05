@@ -18,9 +18,9 @@ set DST=bin\
 %DST%python %DST%get-pip.py
 %DST%python %DST%has_gpu.py > %DST%has_gpu.txt
 set /p GPU=<%DST%has_gpu.txt
-%DST%Scripts\pip.exe install tensorflow%GPU%
+%DST%Scripts\pip.exe install tensorflow%GPU%==1.8.0
 %DST%Scripts\easy_install.exe termcolor
-%DST%Scripts\pip.exe install tensorflow%GPU%
+%DST%Scripts\pip.exe install tensorflow%GPU%==1.8.0
 %DST%Scripts\pip.exe install librosa
 %DST%wget.exe %SRC%xmlpipe.exe -O %DST%xmlpipe.exe 
 

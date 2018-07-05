@@ -6,7 +6,7 @@ Copyright (C) University of Augsburg, Lab for Human Centered Multimedia
 
 import sys, os, json, glob
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+#os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 import tensorflow as tf
 import numpy as np

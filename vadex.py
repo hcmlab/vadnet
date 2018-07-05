@@ -9,7 +9,7 @@ Returns energy of a signal (dimensionwise or overall)
 
 import sys, os, json, glob
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+#os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
 
 import tensorflow as tf
 import numpy as np
