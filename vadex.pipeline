@@ -1,0 +1,99 @@
+<?xml version="1.0" ?>
+<pipeline ssi-v="1">
+	
+	<register>
+		<load name="graphic" />
+		<load name="audio"/>
+		<load name="ioput"/>		
+		<load name="signal"/>		
+		<load name="python"/>
+		<load name="control"/>
+	</register>
+	
+	<gate open="$(live)">	
+		<gate open="$(live:mic)">	
+			<sensor create="Audio" option="microphone" sr="48000" scale="true" blockInSamples="512">
+				<output channel="audio" pin="audio"/>
+			</sensor>
+		</gate>
+		<gate close="$(live:mic)">	
+			<sensor create="AudioLoopBack" option="loopback" scale="true">
+				<output channel="audio" pin="audio">			
+					<transformer create="Selector" indices="0"/>
+				</output>
+			</sensor>
+		</gate>
+	</gate>
+	
+	<gate close="$(live)">	
+		<sensor create="WavReader:reader" path="$(path)" loop="true">			
+			<output channel="audio" pin="audio"/>
+		</sensor>				
+	</gate>
+	
+	<!-- vad -->
+	<transformer create="PythonFeature" script="model" syspath="." optsstr="path=models\vad">
+		<input pin="audio" frame="$(frame)" delta="$(delta)"/>
+		<output pin="vad"/>
+	</transformer>
+	<transformer create="PythonFeature" script="model" syspath="." optsstr="path=models\gender">
+		<input pin="audio" frame="$(frame)" delta="$(delta)"/>
+		<output pin="gender"/>
+	</transformer>
+	<transformer create="PythonFeature" script="model" syspath="." optsstr="path=models\laughter">
+		<input pin="audio" frame="$(frame)" delta="$(delta)"/>
+		<output pin="laugh"/>
+	</transformer>	
+	
+	<transformer create="Merge" dims="5">
+		<input pin="vad;gender;laugh" frame="1"/>
+		<output pin="merged"/>
+	</transformer>	
+	<transformer create="MvgAvgVar" format="1" method="2" win="3.0">
+		<input pin="merged" frame="1"/>
+		<output pin="merged_avg"/>
+	</transformer>
+	
+	<transformer create="PythonFilter" script="vadex" syspath=".">
+		<input pin="merged_avg" frame="1"/>
+		<output pin="final"/>
+	</transformer>	
+	
+	<!-- visualization -->	
+	<consumer create="SignalPainter:plot" title="AUDIO" size="10" type="2">
+		<input pin="audio" frame="0.1s" delta="0"/>
+	</consumer>
+	<consumer create="SignalPainter:plot" title="VADEX" type="5" autoscale="false" fix="1,1" barNames="NOISE,VOICE,MALE,FEMALE,LAUGH">
+		<input pin="final" frame="1" />
+	</consumer>
+	
+	<!-- player -->
+	<gate close="$(live)">	
+		<consumer create="AudioPlayer" option="options\aplayer">
+			<input pin="audio" frame="0.1s"/>
+		</consumer>
+	</gate>
+	
+	<gate open="$(record:do)">
+		<register>
+			<load name="camera"/>
+		</register>	
+		<sensor create="CameraScreen" resize="true" sr="25" region="400,0,400,600" mouse="true" flip="false">
+			<output channel="video" pin="camera" size="2.0s"/>
+		</sensor>
+		<consumer create="CameraWriter" option="options\camscreenwriter" overwrite="true" path="$(record:path).avi">
+			<input pin="camera" frame="1" delta="0"/>
+		</consumer>	
+		<consumer create="WavWriter" option="options\wavscreenwriter" overwrite="true" path="$(record:path).wav">
+			<input pin="audio" frame="0.04s" delta="0"/>
+		</consumer>	
+	</gate>	
+	
+	<!-- decoration -->
+	<object create="Decorator" icon="true" title="Pipeline">
+		<area pos="0,0,400,600">console</area>
+		<area pos="400,0,400,600">plot*</area>		
+		<area pos="800,0,400,600" nh="1">slider*</area>	
+	</object>
+
+</pipeline>

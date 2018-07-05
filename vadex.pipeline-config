@@ -1,0 +1,10 @@
+live = false
+live:mic = true
+
+path = data\group.wav
+
+frame = 8000
+delta = 40000
+
+record:do = false
+record:path = capture

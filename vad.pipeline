@@ -13,7 +13,7 @@
 	<!-- live -->
 	<gate open="$(audio:live)">
 	
-		<sensor create="Audio" option="options/audio" sr="44100" scale="true">
+		<sensor create="Audio" option="options/audio" sr="48000" scale="true">
 			<output channel="audio" pin="audio"/>		
 		</sensor>	
 		
@@ -31,17 +31,17 @@
 
 		<!-- volume -->
 		<transformer create="Multiply:speech" factor="0.0">
-			<input pin="speech_raw" frame="4410"/>
+			<input pin="speech_raw" frame="4800"/>
 			<output pin="speech"/>
 		</transformer>	
 		<transformer create="Multiply:noise" factor="0.0">
-			<input pin="noise_raw" frame="4410"/>
+			<input pin="noise_raw" frame="4800"/>
 			<output pin="noise"/>
 		</transformer>	
 		
 		<!-- mixer -->
 		<transformer create="STKAudioMixer:mixer">
-			<input pin="speech;noise" frame="4410"/>
+			<input pin="speech;noise" frame="4800"/>
 			<output pin="audio"/>
 		</transformer>
 		
@@ -52,8 +52,8 @@
 	</gate>
 	
 	<!-- vad -->
-	<transformer create="PythonFeature" script="vad" syspath="." optsstr="path=$(model:path)">
-		<input pin="audio" frame="11025" delta="11025"/>
+	<transformer create="PythonFeature" script="model" syspath="." optsstr="path=$(model:path)">
+		<input pin="audio" frame="8000" delta="40000"/>
 		<output pin="vad_raw"/>
 	</transformer>
 	<transformer create="MvgAvgVar" format="1" method="2" win="3.0">
@@ -97,7 +97,7 @@
 		<consumer create="CameraWriter" option="options\camscreenwriter" overwrite="true" path="$(record:path).avi">
 			<input pin="camera" frame="1" delta="0"/>
 		</consumer>	
-		<consumer create="WavWriter" option="options\camscreenwriter" overwrite="true" path="$(record:path).wav">
+		<consumer create="WavWriter" option="options\wavscreenwriter" overwrite="true" path="$(record:path).wav">
 			<input pin="audio" frame="0.04s" delta="0"/>
 		</consumer>	
 	</gate>	

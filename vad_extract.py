@@ -7,7 +7,7 @@ Copyright (C) University of Augsburg, Lab for Human Centered Multimedia
 Returns energy of a signal (dimensionwise or overall)
 '''
 
-import sys, os, json, argparse
+import sys, os, json, argparse, glob
 
 import tensorflow as tf
 import numpy as np
@@ -40,16 +40,37 @@ def audio_to_frames(x, n_frame, n_step=None):
     return np.lib.stride_tricks.as_strided(x[0:n_keep,:], (n_frames,n_frame), strides)
 
 
-def extract_voice(ckeckpoint_path, files, sr=44100, n_batch=256):
+def extract_voice(path, files, n_batch=256):
+
+    print('load model from {}'.format(path))
+
+    if os.path.isdir(path):
+        candidates = glob.glob(os.path.join(path, 'model.ckpt-*.meta'))
+        if candidates:
+            candidates.sort()                
+            checkpoint_path, _ = os.path.splitext(candidates[-1])
+    else:
+        checkpoint_path = path        
+
+    if not all([os.path.exists(checkpoint_path + x) for x in ['.data-00000-of-00001', '.index', '.meta']]):
+        print('ERROR: could not load model')
+        raise FileNotFoundError
+
+    vocabulary_path = checkpoint_path + '.json'
+    if not os.path.exists(vocabulary_path):
+        vocabulary_path = os.path.join(os.path.dirname(checkpoint_path), 'vocab.json')
+    if not os.path.exists(vocabulary_path):
+        print('ERROR: could not load vocabulary')
+        raise FileNotFoundError
+
+    with open(vocabulary_path, 'r') as fp:
+        vocab = json.load(fp)
 
     graph = tf.Graph()
 
     with graph.as_default():
 
-        print('loading model {}'.format(ckeckpoint_path)) 
-        saver = tf.train.import_meta_graph(ckeckpoint_path + '.meta')
-        with open(ckeckpoint_path + '.json', 'r') as fp:
-            vocab = json.load(fp)
+        saver = tf.train.import_meta_graph(checkpoint_path + '.meta')
 
         x = graph.get_tensor_by_name(vocab['x'])
         y = graph.get_tensor_by_name(vocab['y'])            
@@ -58,10 +79,11 @@ def extract_voice(ckeckpoint_path, files, sr=44100, n_batch=256):
         ph_n_shuffle = graph.get_tensor_by_name(vocab['n_shuffle'])
         ph_n_repeat = graph.get_tensor_by_name(vocab['n_repeat'])
         ph_n_batch = graph.get_tensor_by_name(vocab['n_batch'])
+        sr = vocab['sample_rate']
 
         with tf.Session() as sess:
 
-            saver.restore(sess, ckeckpoint_path)
+            saver.restore(sess, checkpoint_path)
 
             for file in files:
 
@@ -95,7 +117,7 @@ def extract_voice(ckeckpoint_path, files, sr=44100, n_batch=256):
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--model',
-                default=r'models\model.ckpt-47072',
+                default=r'models\vad',
                 help='path to model')  
 
 parser.add_argument('--files', 
