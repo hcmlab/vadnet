@@ -17,19 +17,19 @@ Visual Studio 2015 Redistributable (https://www.microsoft.com/en-us/download/det
 
 # Quick Guide
 
-`do_vad.cmd` - Demo on pre-recorded files (requires 44.1k mono wav files)
+`do_vad[ex].cmd` - Demo on pre-recorded files (requires 44.1k mono wav files)
 
-`do_vad_live.cmd` - Live demo (requires a microphone and streams results to a socket)
+`do_vad[ex]_live.cmd` - Live demo (requires a microphone and streams results to a socket)
 
 `do_vad_extract.cmd` - Separates audio file into noisy and voiced parts (supports any audio format)
 
 # Documentation
 
-VadNet is implemented using the [Social Signal Interpretation (SSI)](http://openssi.net) framework. The processing pipeline is defined in ``vad.pipeline`` and can be configured by editing ``vad.pipeline-config``. Available options are:
+VadNet is implemented using the [Social Signal Interpretation (SSI)](http://openssi.net) framework. The processing pipeline is defined in ``vad[ex].pipeline`` and can be configured by editing ``vad[ex].pipeline-config``. Available options are:
 
 ```
 audio:live = false                   # $(bool) use live input from a microphone
-model:path=models\model.ckpt-357047  # path to model file
+model:path=models\vad                # path to model folder
 send:do = false                      # $(bool) stream detection results to a socket
 send:url = upd://localhost:1234      # socket address in format <protocol://host:port>
 record:do = false                    # $(bool) capture screen and audio
