@@ -12,12 +12,12 @@
 	
 	<gate open="$(live)">	
 		<gate open="$(live:mic)">	
-			<sensor create="Audio" option="microphone" sr="48000" scale="true" blockInSamples="512">
+			<sensor create="Audio" option="options\microphone" sr="48000" scale="true" blockInSamples="512">
 				<output channel="audio" pin="audio"/>
 			</sensor>
 		</gate>
 		<gate close="$(live:mic)">	
-			<sensor create="AudioLoopBack" option="loopback" scale="true">
+			<sensor create="AudioLoopBack" option="options\loopback" scale="true">
 				<output channel="audio" pin="audio">			
 					<transformer create="Selector" indices="0"/>
 				</output>
@@ -67,6 +67,16 @@
 		<input pin="final" frame="1" />
 	</consumer>
 	
+	<!-- event sender -->
+	<gate open="$(send:do)">
+		<consumer create="XMLEventSender:monitor" address="final@xml" path="vadex.xml" monitor="true" mname="XML" console="false" update="100" coldelim=" ">
+			<input pin="final" frame="1"/>
+		</consumer>	
+		<object create="SocketEventWriter" url="$(send:url)" xml="false">
+			<listen address="final@xml"/>
+		</object>	
+	</gate>	
+	
 	<!-- player -->
 	<gate close="$(live)">	
 		<consumer create="AudioPlayer" option="options\aplayer">
@@ -94,6 +104,7 @@
 		<area pos="0,0,400,600">console</area>
 		<area pos="400,0,400,600">plot*</area>		
 		<area pos="800,0,400,600" nh="1">slider*</area>	
+		<area pos="800,300,400,300">monitor</area>		
 	</object>
 
 </pipeline>

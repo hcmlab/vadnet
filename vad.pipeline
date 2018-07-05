@@ -11,12 +11,19 @@
 	</register>
 
 	<!-- live -->
-	<gate open="$(audio:live)">
-	
-		<sensor create="Audio" option="options/audio" sr="48000" scale="true">
-			<output channel="audio" pin="audio"/>		
-		</sensor>	
-		
+	<gate open="$(audio:live)">	
+		<gate open="$(audio:live:mic)">	
+			<sensor create="Audio" option="options\microphone" sr="48000" scale="true" blockInSamples="512">
+				<output channel="audio" pin="audio"/>
+			</sensor>
+		</gate>
+		<gate close="$(audio:live:mic)">	
+			<sensor create="AudioLoopBack" option="options\loopback" scale="true">
+				<output channel="audio" pin="audio">			
+					<transformer create="Selector" indices="0"/>
+				</output>
+			</sensor>
+		</gate>
 	</gate>
 	
 	<!-- file -->

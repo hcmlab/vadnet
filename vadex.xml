@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<vad>	
+	<noise>$(0{select=0})</noise>
+	<voice>$(0{select=1})</voice>
+	<male>$(0{select=2})</male>
+	<female>$(0{select=3})</female>
+	<laugh>$(0{select=4})</laugh>
+</vad>
+
