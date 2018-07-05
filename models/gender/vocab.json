@@ -1,0 +1,1 @@
+{"x": "ph/frames:0", "y": "ph/labels:0", "init": "ds/initializer", "logits": "net/layers/logits/dense/Softmax:0", "n_shuffle": "ph/n_shuffle:0", "n_repeat": "ph/n_repeat:0", "n_batch": "ph/n_batch:0", "targets": ["male", "female", "child"], "sample_rate": 48000}
