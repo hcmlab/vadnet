@@ -17,9 +17,11 @@ Visual Studio 2015 Redistributable (https://www.microsoft.com/en-us/download/det
 
 # Quick Guide
 
-`do_vad[ex].cmd` - Demo on pre-recorded files (requires 44.1k mono wav files)
+`do_vad[ex].cmd` - Demo on pre-recorded files (requires 48k mono wav files)
 
-`do_vad[ex]_live.cmd` - Live demo (requires a microphone and streams results to a socket)
+`do_vad[ex]_live.cmd` - Capture from microphone and stream results to a socket
+
+`do_vad[ex]_loopback.cmd` - Capture from soundcard and stream result to a socket (see notes below)
 
 `do_vad_extract.cmd` - Separates audio file into noisy and voiced parts (supports any audio format)
 
@@ -28,7 +30,8 @@ Visual Studio 2015 Redistributable (https://www.microsoft.com/en-us/download/det
 VadNet is implemented using the [Social Signal Interpretation (SSI)](http://openssi.net) framework. The processing pipeline is defined in ``vad[ex].pipeline`` and can be configured by editing ``vad[ex].pipeline-config``. Available options are:
 
 ```
-audio:live = false                   # $(bool) use live input from a microphone
+audio:live = false                   # $(bool) use live input (otherwise read from file)
+audio:live:mic = true 							 # $(bool) if live input is selected use microphone (otherwise use soundcard)
 model:path=models\vad                # path to model folder
 send:do = false                      # $(bool) stream detection results to a socket
 send:url = upd://localhost:1234      # socket address in format <protocol://host:port>
@@ -49,6 +52,12 @@ optional arguments:
   --files FILES [FILES ...]		list of files
   --n_batch N_BATCH     		number of batches
 ```
+
+# Loopback Mode
+
+In loopback mode, any sound you playback through your soundcard will be analysed. Before using it you should ensure that set the right output format is selected for your soundcard. Got to the ``Sound`` settings (available in the control panel), select your playback device and click on ``Properties``. Most devices now allow you to set a default format. Choose ``16 bit, 48000 Hz`` and press ``OK``.
+
+<img src="https://raw.githubusercontent.com/hcmlab/vadnet/master/pics/loopback.png"/>
 
 # Insights
 
