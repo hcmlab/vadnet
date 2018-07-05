@@ -1,7 +1,7 @@
 # VadNet
 VadNet is a real-time voice activity detector for noisy enviroments. It implements an end-to-end learning approach based on Deep Neural Networks. In the extended version, gender and laughter detection are added. To see a demonstration click on the images below.
 
-<a href="https://www.youtube.com/watch?v=QL4HY_e21v0" target="_blank"><img src="https://raw.githubusercontent.com/hcmlab/vadnet/master/pics/vadnet.png"/></a><a href="https://www.youtube.com/watch?v=Ka_lQPlWPuY" target="_blank"><img src="https://raw.githubusercontent.com/hcmlab/vadnet/master/pics/vadnetex.png"/></a>
+<a href="https://www.youtube.com/watch?v=QL4HY_e21v0" target="_blank"><img src="https://raw.githubusercontent.com/hcmlab/vadnet/master/pics/vadnet.png"/></a><a href="https://www.youtube.com/watch?v=Ka_lQPlWPuY" target="_blank">&emsp;<img src="https://raw.githubusercontent.com/hcmlab/vadnet/master/pics/vadnetex.png"/></a>
 
 # Platform
 
