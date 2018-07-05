@@ -55,7 +55,7 @@ optional arguments:
 
 # Loopback Mode
 
-In loopback mode, whatever you playback through your soundcard will be analysed. Before using it please make sure that set the right output format is selected for your soundcard. To do so, go to the ``Sound`` settings in the control panel, select your default playback device and click on ``Properties``. Most devices will now allow you to set a default format. Choose ``16 bit, 48000 Hz`` and press ``OK``.
+In loopback mode, whatever you playback through your soundcard will be analysed. Before using it please set the right output format for your soundcard. To do so, go to the ``Sound`` settings in the control panel, select your default playback device and click on ``Properties``. Most devices will now allow you to set a default format. Choose ``16 bit, 48000 Hz`` and press ``OK``.
 
 <img src="https://raw.githubusercontent.com/hcmlab/vadnet/master/pics/loopback.png"/>
 
