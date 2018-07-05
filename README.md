@@ -21,7 +21,7 @@ Visual Studio 2015 Redistributable (https://www.microsoft.com/en-us/download/det
 
 `do_vad[ex]_live.cmd` - Capture from microphone and stream results to a socket
 
-`do_vad[ex]_loopback.cmd` - Instead of using a microhpone capture from soundcard (loopback mode, see comments below)
+`do_vad[ex]_loopback.cmd` - Instead of a microphone capture from soundcard (loopback mode, see comments below)
 
 `do_vad_extract.cmd` - Separates audio file into noisy and voiced parts (supports any audio format)
 
