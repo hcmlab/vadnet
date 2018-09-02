@@ -94,7 +94,7 @@ VadNet is released under GPL (see LICENSE).
 
 If you use VadNet in your work please cite the following paper:
 
-'''
+```
 @InProceedings{Wagner2018,
   author =    {Johannes Wagner and Dominik Schiller and Andreas Seiderer and Elisabeth Andr\'e},
   title =     {Deep Learning in Paralinguistic Recognition Tasks: Are Hand-crafted Features Still Relevant?},
@@ -103,7 +103,7 @@ If you use VadNet in your work please cite the following paper:
   year =      {2018},
   pages =     {147--151}
 }
-'''
+```
 
 # Author
 
