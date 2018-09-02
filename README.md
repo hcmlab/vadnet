@@ -88,7 +88,7 @@ Activations for all cells in the last RNN layer for the same sample:
 
 # License
 
-VadNet is released under GPL (see LICENSE).
+VadNet is released under LGPL (see LICENSE).
 
 # Publication
 
