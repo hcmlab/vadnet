@@ -99,7 +99,7 @@ If you use VadNet in your work please cite the following paper:
   author =    {Johannes Wagner and Dominik Schiller and Andreas Seiderer and Elisabeth Andr\'e},
   title =     {Deep Learning in Paralinguistic Recognition Tasks: Are Hand-crafted Features Still Relevant?},
   booktitle = {Proceedings of Interspeech},
-  address = {Hyderabad, India},
+  address =   {Hyderabad, India},
   year =      {2018},
   pages =     {147--151}
 }
