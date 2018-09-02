@@ -90,6 +90,21 @@ Activations for all cells in the last RNN layer for the same sample:
 
 VadNet is released under GPL (see LICENSE).
 
+# Publication
+
+If you use VadNet in your work please cite the following paper:
+
+'''
+@InProceedings{Wagner2018,
+  author =    {Johannes Wagner and Dominik Schiller and Andreas Seiderer and Elisabeth Andr\'e},
+  title =     {Deep Learning in Paralinguistic Recognition Tasks: Are Hand-crafted Features Still Relevant?},
+  booktitle = {Proceedings of Interspeech},
+  address = {Hyderabad, India},
+  year =      {2018},
+  pages =     {147--151}
+}
+'''
+
 # Author
 
 Johannes Wagner, Lab for Human Centered Multimedia, 2018
