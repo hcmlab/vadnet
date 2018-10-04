@@ -1,0 +1,14 @@
+Dependencies:
+
+* tensorflow
+* resampy
+* librosa
+* youtube-dl
+* pycaption
+
+Run order:
+
+* do_download.cmd
+* do_convert.cmd
+* do_train.cmd
+
