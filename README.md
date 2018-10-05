@@ -25,6 +25,8 @@ Visual Studio 2015 Redistributable (https://www.microsoft.com/en-us/download/det
 
 `do_vad_extract.cmd` - Separates audio file into noisy and voiced parts (supports any audio format)
 
+`train\do_all.cmd` - Performs a fresh training (downloads media files, creates annotations and trains a new network)
+
 # Documentation
 
 VadNet is implemented using the [Social Signal Interpretation (SSI)](http://openssi.net) framework. The processing pipeline is defined in ``vad[ex].pipeline`` and can be configured by editing ``vad[ex].pipeline-config``. Available options are:
