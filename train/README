@@ -6,6 +6,10 @@ Dependencies:
 * youtube-dl
 * pycaption
 
+Other:
+
+* ffmpeg
+
 Run order:
 
 * do_download.cmd
