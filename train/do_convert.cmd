@@ -1,6 +1,6 @@
 @echo off
 
-python download\annotation.py
+python code\annotation.py
 
 SET ROOT=data
 SET FORMAT_IN=mp4
