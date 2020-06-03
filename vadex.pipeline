@@ -6,7 +6,7 @@
 		<load name="audio"/>
 		<load name="ioput"/>		
 		<load name="signal"/>		
-		<load name="python"/>
+		<load name="python36"/>
 		<load name="control"/>
 	</register>
 	
